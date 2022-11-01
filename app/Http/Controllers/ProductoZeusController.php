@@ -20,14 +20,16 @@ class ProductoZeusController extends Controller
         $busqueda = $request->busqueda;
         Paginator::useBootstrap();
 
-        $producto_zeus = DB::connection('sqlsrv')->table('starnet_products')
-                                                 ->where('disabled','=', 0 ) 
-                                                 ->where('brand_id','=', 18)
-                                                 ->where('code','Like','%'.$busqueda.'%')
-                                                 ->where('name','Like','%'.$busqueda.'%')
-                                                 ->orderBy('code', 'desc')
+        $producto_zeus = DB::connection('sqlsrv')->table('starnet_inventories')
+                                                 ->where('starnet_inventories.warehouse_id','=',18)
+                                                 ->where('starnet_products.disabled','=',0)
+                                                 ->join('starnet_products','starnet_inventories.product_id', '=', 'starnet_products.id')
+                                                 ->select('starnet_inventories.*', 'starnet_products.*')
+                                                 ->where('starnet_products.code','Like','%'.$busqueda.'%')
+                                                 ->where('starnet_products.name','Like','%'.$busqueda.'%')
+                                                 ->orderBy('starnet_products.code', 'desc')
                                                  ->paginate(10);
-
+                                                 
         return view('producto_zeus.index',['producto_zeus' => $producto_zeus]);
         
     }

@@ -64,8 +64,7 @@
                     <td>{{$p->name}}</td>
                     <td>{{$p->spec}}</td>
                     <td>{{$p->retail_price}}</td>
-                    <td>{{$p->brand_id}}</td>
-
+                    <td>{{$p->actual_inventory_qty}}</td>
                     <td>
                         <a href="{{ route('producto_zeus.edit',$p->id) }}" class="btn btn-warning">Agregar Web</a>
                     </td>
